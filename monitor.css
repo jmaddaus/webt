@@ -1,0 +1,348 @@
+/** @format */
+
+/* =========================================
+   MONITOR CHASSIS (casing and stand)
+   ========================================= */
+
+.monitor-casing {
+	background-color: var(--bezel-color);
+
+	/* The padding acts as the monitor frame/border */
+	padding: var(--bezel-top-side);
+	padding-bottom: var(--bezel-bottom);
+	background-size: 600px auto;
+	background-image: var(--plastic-texture);
+	background-blend-mode: overlay;
+
+	opacity: 1;
+	/* Outer casing shape */
+	border-radius: 20px;
+	box-shadow: 
+    /* 1. Top Highlight (Rim Light): simulating light hitting the top edge */ inset
+			0 1px 0 rgba(255, 255, 255, 0.3),
+		/* 2. Tight Contact Shadow: The dark area right underneath */ 0 5px 10px
+			rgba(0, 0, 0, 0.7),
+		/* 3. Medium Shadow: Gives it distinct height */ 0 20px 30px
+			rgba(0, 0, 0, 0.5),
+		/* 4. Large Ambient Shadow: Grounds it in the room */ 0 50px 80px
+			rgba(0, 0, 0, 0.3);
+
+	width: 90%;
+	height: 90%;
+	max-width: 1200px;
+	box-sizing: border-box;
+	position: absolute;
+}
+
+.monitor-stand {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: -60px;
+	z-index: -1;
+
+	width: 50%;
+	height: 80px;
+
+	/* Texture logic*/
+	background-size: 600px auto;
+
+	background-image: var(--plastic-texture),
+		linear-gradient(
+			to right,
+			rgba(0, 0, 0, 0.4),
+			transparent 20%,
+			transparent 80%,
+			rgba(0, 0, 0, 0.4)
+		);
+	background-blend-mode: overlay;
+	background-color: #d1c7b7;
+
+	clip-path: polygon(40px 0%, calc(100% - 40px) 0%, 100% 100%, 0% 100%);
+}
+
+/* Update the Foot to scale proportionally too */
+.monitor-stand::after {
+	content: '';
+	position: absolute;
+	bottom: -15px;
+	height: 40px;
+
+	left: -5%;
+	right: -5%;
+
+	border-radius: 20px;
+
+	background-size: 600px auto;
+	background-position: center bottom;
+	background-image: var(--plastic-texture);
+	background-blend-mode: overlay;
+	background-color: var(--bezel-color);
+
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6),
+		inset 0 2px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* =========================================
+   MONITOR SCREEN (crt and content)
+   ========================================= */
+
+.monitor-content {
+	background-color: var(--screen-bg);
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	box-shadow: inset 0 0 4rem rgba(0, 0, 0, 0.6);
+	background-image: radial-gradient(circle at center, #2a2a2a 0%, #121212 100%);
+	clip-path: ellipse(120% 120% at 50% 50%);
+	overflow-y: auto;
+	padding: 20px;
+	box-sizing: border-box;
+	transition: none;
+}
+
+.crt-screen {
+	background-color: var(--screen-bg);
+	flex: 1;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	border: 12px solid #b3a58e;
+	box-sizing: border-box;
+	border-radius: 10px;
+
+	/* 3D Bevel Walls */
+	border-style: solid;
+	border-width: 12px;
+	border-top-color: #857863;
+	border-left-color: #9c8e79;
+	border-right-color: #c4b59d;
+	border-bottom-color: #d6c8b0;
+
+	/* Shadows to blend the walls onto the glass */
+	box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8),
+		inset 0 0 8rem rgba(0, 0, 0, 0.75);
+}
+
+/* Scanlines */
+.crt-screen::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+
+	/* Create the lines */
+	background: linear-gradient(
+		to bottom,
+		rgba(18, 16, 16, 0) 50%,
+		rgba(0, 0, 0, 0.2) 50%
+	);
+
+	/* Controls scanline density (4px = 2px line, 2px gap) */
+	background-size: 100% 3px;
+
+	/* flicker animation */
+	animation: scanline 120s linear infinite;
+
+	pointer-events: none;
+	z-index: 10;
+}
+
+.crt-screen::after {
+	content: ' ';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	/* Reflection Gradient */
+	background: linear-gradient(
+			135deg,
+			rgba(255, 255, 255, 0) 40%,
+			rgba(255, 255, 255, 0.05) 50%,
+			rgba(255, 255, 255, 0) 60%
+		),
+		radial-gradient(
+			circle at 50% 50%,
+			rgba(255, 255, 255, 0.02),
+			transparent 60%
+		);
+
+	pointer-events: none;
+	z-index: 11; /*must be higher than ::before (10) */
+}
+
+@keyframes scanline {
+	0% {
+		background-position: 0 0;
+	}
+	100% {
+		background-position: 0 100.5vh;
+	}
+}
+
+/* =========================================
+   CONTROL PANEL (chin area)
+   ========================================= */
+
+.monitor-chin {
+	width: 100%;
+	height: 100px; /* Allocated space in the bottom bezel */
+
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding-top: 25px;
+	padding-right: 10px;
+	box-sizing: border-box;
+	flex-shrink: 0;
+}
+.power-group {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	z-index: 5;
+}
+
+/* LED Square */
+.power-led {
+	width: 8px;
+	height: 8px;
+	background-color: #0f0;
+	border-radius: 1px;
+
+	/* Glow Effect */
+	box-shadow: 0 0 5px #0f0, 0 0 10px #0f0,
+		inset 0 0 2px rgba(255, 255, 255, 0.5);
+
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.power-led.off {
+	background-color: #2a3a2a;
+	box-shadow: none;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	opacity: 0.6;
+}
+
+.power-button {
+	position: relative;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	border: none;
+	cursor: pointer;
+
+	/* Color matches bezel but slightly different shade */
+	background-color: #d1c7b7;
+
+	box-shadow: 
+    /* Light top edge */ inset 0 2px 3px rgba(255, 255, 255, 0.6),
+		/* Dark bottom edge */ inset 0 -2px 5px rgba(0, 0, 0, 0.4),
+		/* Drop shadow on casing */ 0px 1px 2px rgba(0, 0, 0, 0.5);
+
+	background-image: radial-gradient(
+		circle,
+		transparent 30%,
+		rgba(0, 0, 0, 0.1) 100%
+	);
+}
+
+.power-button.on {
+	transform: translateY(2px);
+	/* Deep inner shadow to look recessed */
+	box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8), 0 0 0 rgba(0, 0, 0, 0);
+	background-color: #cbbfa9;
+}
+
+.power-button::after {
+	content: '';
+	display: block;
+	box-sizing: border-box;
+	width: 12px;
+	height: 12px;
+
+	/* Centering Logic */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	border-radius: 50%;
+	border: 2px solid rgba(0, 0, 0, 0.5);
+	border-top-color: transparent;
+}
+
+.power-button::before {
+	content: '';
+	display: block;
+	width: 2px;
+	height: 6px;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	/* Centering Logic */
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -8px);
+}
+
+@keyframes turnOn {
+	0% {
+		opacity: 0;
+		filter: brightness(3);
+	}
+	50% {
+		opacity: 1;
+		filter: brightness(2);
+	}
+	100% {
+		opacity: 1;
+		filter: brightness(1);
+	}
+}
+.crt-screen:not(.off) .monitor-content {
+	animation: turnOn 0.4s linear forwards;
+}
+
+.crt-screen.off .monitor-content {
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+}
+
+.crt-screen.off::before {
+	opacity: 0;
+	animation: none;
+}
+
+.crt-screen.off {
+	background-color: #080808;
+	transition: background-color 0.5s;
+}
+
+.brand-logo {
+	text-decoration: none;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 900;
+	font-size: 24px;
+	letter-spacing: 2px;
+
+	color: #bfaea0;
+
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
+
+	transition: color 0.2s, text-shadow 0.2s;
+	cursor: pointer;
+}
+
+.brand-logo:hover {
+	color: #8f826f;
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+}

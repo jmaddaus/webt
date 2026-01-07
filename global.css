@@ -1,0 +1,46 @@
+/** @format */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+	--bezel-color: #e3dac9; /* Biscuit color */
+	--screen-bg: rgb(30, 30, 30);
+
+	/* Mobile Bezel Sizes (Thinner) */
+	--bezel-top-side: 15px;
+	--bezel-bottom: 100px;
+	--plastic-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 768px) {
+	:root {
+		/* Desktop Bezel Sizes (Meatier) */
+		--bezel-top-side: 40px;
+		--bezel-bottom: 100px;
+	}
+}
+
+.pixel-text {
+	font-family: 'VT323', monospace;
+	font-weight: 400;
+	font-size: 22px; /* slightly larger than normal text for readability */
+	color: #33ff33; /* Terminal Green */
+
+	text-shadow: 0 0 2px rgba(51, 255, 51, 0.6), 0 0 8px rgba(51, 255, 51, 0.4);
+
+	line-height: 1.4;
+	letter-spacing: 1px;
+	/*text-transform: uppercase;  */
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	background: radial-gradient(circle at center, #793e47 0%, #0b0e1c 100%);
+	padding-bottom: 80px;
+	overflow: hidden;
+}
