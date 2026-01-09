@@ -17,25 +17,27 @@ Intended to be a simple static site for efficient publishing.
 </ul>
 </p>
 
+## Completed
+
+<ul>
+<li>clear - clears term</li>
+<li>help - displays help with a list of all commands</li>
+<li>ls - lists permitted 'files' for interaction</li>
+<li>about - shows some basic publishing information</li>
+<li>cat - print files</li>
+<ul>
+<li>about.txt - some info about the project</li>
+<li>contact.txt - some contact information for author</li>
+<li>resume.txt - author's resume</li>
+</ul>
+<li>wget - pseudo download function</li>
+<ul>
+<li>resume.pdf - pdf version of resume
+</ul>
+</ul>
+
 ## Roadmap
 
-<p>
-Intended to be a simple static site for efficient publishing.
-<ol>
-<li>Basic Framework/Shell</li>
-<ul>
-<li>Page Layout</li>
-<li>Initial Effects/Interaction</li>
-<li>Simple Buttons</li>
-</ul>
-<li>Initial Functionality</li>
-<ul>
-<li>handle general text input/display properly</li>
-<li>ls - list files for interaction</li>
-<li>help - list basic commands</li>
-<li>cat - print files</li>
-<li>mv - implement some sort of pseudo-dl function for resume</li>
-</ul>
 <li>Extended Functionality</li>
 <ul>
 <li>error animation (bad command)</li>

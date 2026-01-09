@@ -17,40 +17,39 @@
 	<body>
 		<div class="monitor-casing">
 			<div class="crt-screen off">
-				<div class="monitor-content">
-					<p class="pixel-text">$ cat nonsense.txt</p>
-					<p class="pixel-text">
-						Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-						commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-						penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-						Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-						Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-						aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-						imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-						mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
-						semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-						porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem
-						ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra
-						nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet.
-						Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
-						nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
-						condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem
-						neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-						hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.
-						Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante.
-						Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed
-						fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed
-						consequat, leo eget bibendum sodales, augue velit cursus nunc,
-					</p>
+				<div class="monitor-content pixel-text">
+					<div
+						id="terminal"
+						onclick="document.getElementById('cmd').focus()">
+						<div id="history"></div>
+						<!--<div id="input-line">
+							<span class="prompt">visitor@web:~$</span>
+							<input
+								type="text"
+								id="cmd"
+								autocomplete="off"
+								autofocus />
+						</div>-->
+						<div id="input-line">
+							<span class="prompt">visitor@web:~$</span>
+
+							<div id="cmd-display">
+								<span id="cmd-pre-cursor"></span
+								><span id="cmd-cursor">&nbsp;</span
+								><span id="cmd-post-cursor"></span>
+							</div>
+
+							<input
+								type="text"
+								id="cmd"
+								autocomplete="off"
+								autofocus />
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="monitor-chin">
-				<a
-					href="mailto:jm@ddaus.dev"
-					class="brand-logo"
-					title="Contact Me">
-					JM
-				</a>
+				<p class="brand-logo">JM</p>
 				<div class="power-group">
 					<div class="power-led off"></div>
 					<button
@@ -60,42 +59,12 @@
 			</div>
 			<div class="monitor-stand"></div>
 		</div>
-		<script>
-			const powerBtn = document.querySelector('.power-button');
-			const powerLed = document.querySelector('.power-led');
-			const screen = document.querySelector('.crt-screen');
 
-			// Set initial state (ON)
-			//let isPowered = true;
-			//powerBtn.classList.add('on'); // Button starts pressed in
-
-			// 1. Initialize as OFF
-			let isPowered = false;
-
-			// 2. Apply the "OFF" visual states immediately
-			powerBtn.classList.remove('on'); // Button pops out
-			powerLed.classList.add('off'); // LED is dim
-			screen.classList.add('off'); // Screen is black
-
-			powerBtn.addEventListener('click', () => {
-				isPowered = !isPowered;
-
-				if (isPowered) {
-					// TURN ON
-					powerBtn.classList.add('on'); // Latch button
-					powerLed.classList.remove('off'); // Light LED
-					screen.classList.remove('off'); // Restore Content/Scanlines
-
-					// Screen Animation: slight delay to simulate warm-up
-					screen.style.opacity = '1';
-					screen.style.animation = 'turnOn 0.4s linear forwards';
-				} else {
-					// TURN OFF
-					powerBtn.classList.remove('on'); // Pop button out
-					powerLed.classList.add('off'); // Dim LED
-					screen.classList.add('off'); // Hide Content/Scanlines
-				}
-			});
-		</script>
+		<script
+			type="module"
+			src="main.js"></script>
+		<script
+			type="module"
+			src="kernel.js"></script>
 	</body>
 </html>
