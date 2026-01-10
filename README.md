@@ -34,6 +34,7 @@ Intended to be a simple static site for efficient publishing.
 <ul>
 <li>resume.pdf - pdf version of resume
 </ul>
+<li>exit - resets session</li>
 </ul>
 
 ## Roadmap

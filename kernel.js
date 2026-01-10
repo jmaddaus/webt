@@ -79,7 +79,8 @@ export async function handleCommand(fullCmd) {
     // Dynamic Execution
     if (validCommands.includes(cmd)) {
         try {
-            const module = await import(`./commands/${cmd}.js`);
+            //const module = await import(`./commands/${cmd}.js`);
+            const module = await import(`./commands/${cmd}.js?v=${Date.now()}`); //add timestamp to force reload to avoid cache issues
             const result = await module.execute(args);
             if (result) addToHistory(result);
         } catch (error) {
