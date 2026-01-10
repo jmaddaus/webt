@@ -16,7 +16,7 @@
 	:root {
 		/* Desktop Bezel Sizes (Meatier) */
 		--bezel-top-side: 40px;
-		--bezel-bottom: 100px;
+		/*--bezel-bottom: 100px;*/
 	}
 }
 
@@ -38,6 +38,7 @@ body {
 	height: 100vh;
 	box-sizing: border-box;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: flex-end;
 	background: radial-gradient(circle at center, #793e47 0%, #0b0e1c 100%);

@@ -1,54 +1,54 @@
-// main.js
-const input = document.getElementById('cmd');
+// kernel.js
+//const input = document.getElementById('cmd');
 const history = document.getElementById('history');
-const terminal = document.getElementById('terminal');
+//const terminal = document.getElementById('terminal');
 const monitorContent = document.querySelector('.monitor-content');
-const validCommands = ['help', 'about', 'ls', 'cat', 'clear', 'wget'];
+const validCommands = ['help', 'about', 'ls', 'cat', 'clear', 'wget', 'exit'];
 
 const scrollToBottom = () => {
     monitorContent.scrollTop = monitorContent.scrollHeight;
 };
 
-input.addEventListener('keydown', async function (e) {
-    if (e.key === 'Enter') {
-        const fullCmd = input.value.trim();
-        const [cmd, ...args] = fullCmd.split(' ');
+// input.addEventListener('keydown', async function (e) {
+//     if (e.key === 'Enter') {
+//         const fullCmd = input.value.trim();
+//         const [cmd, ...args] = fullCmd.split(' ');
 
-        // Echo Command
-        addToHistory(`visitor@web:~$ ${fullCmd}`, 'command-echo');
-        input.value = '';
+//         // Echo Command
+//         addToHistory(`visitor@web:~$ ${fullCmd}`, 'command-echo');
+//         input.value = '';
 
-        if (!cmd) return;
+//         if (!cmd) return;
 
-        // Clear handling (Local built-in)
-        if (cmd === 'clear') {
-            history.innerHTML = '';
-            return;
-        }
+//         // Clear handling (Local built-in)
+//         if (cmd === 'clear') {
+//             history.innerHTML = '';
+//             return;
+//         }
 
-        // Dynamic Import Logic
-        if (validCommands.includes(cmd)) {
-            try {
-                // This tries to find a file with the command name in /commands
-                const module = await import(`./commands/${cmd}.js`);
+//         // Dynamic Import Logic
+//         if (validCommands.includes(cmd)) {
+//             try {
+//                 // This tries to find a file with the command name in /commands
+//                 const module = await import(`./commands/${cmd}.js`);
 
-                // Run the exported 'execute' function from that module
-                const result = await module.execute(args);
+//                 // Run the exported 'execute' function from that module
+//                 const result = await module.execute(args);
 
-                if (result) addToHistory(result);
-            } catch (error) {
-                // If the file doesn't exist, import throws an error
-                console.error("Command crashed:", error);
-                addToHistory(`Error executing ${cmd}`);
-            }
-        } else {
-            // Handle unknown commands here (No 404 request made!)
-            addToHistory(`bash: ${cmd}: command not found`);
-        }
-        // Scroll to bottom
-        scrollToBottom();
-    }
-});
+//                 if (result) addToHistory(result);
+//             } catch (error) {
+//                 // If the file doesn't exist, import throws an error
+//                 console.error("Command crashed:", error);
+//                 addToHistory(`Error executing ${cmd}`);
+//             }
+//         } else {
+//             // Handle unknown commands here (No 404 request made!)
+//             addToHistory(`bash: ${cmd}: command not found`);
+//         }
+//         // Scroll to bottom
+//         scrollToBottom();
+//     }
+// });
 
 function addToHistory(text, type = '') {
     const div = document.createElement('div');
@@ -62,4 +62,35 @@ function addToHistory(text, type = '') {
     scrollToBottom();
 }
 
-addToHistory("Welcome to WebTerm v0.1.1. Type 'help' to see available files/commands.");
+export async function handleCommand(fullCmd) {
+    // Echo the command
+    addToHistory(`visitor@web:~$ ${fullCmd}`, 'command-echo');
+
+    if (!fullCmd) return;
+
+    const [cmd, ...args] = fullCmd.split(' ');
+
+    // Built-in Clear
+    if (cmd === 'clear') {
+        history.innerHTML = '';
+        return;
+    }
+
+    // Dynamic Execution
+    if (validCommands.includes(cmd)) {
+        try {
+            const module = await import(`./commands/${cmd}.js`);
+            const result = await module.execute(args);
+            if (result) addToHistory(result);
+        } catch (error) {
+            console.error(error);
+            addToHistory(`Error executing ${cmd}`);
+        }
+    } else {
+        addToHistory(`bash: ${cmd}: command not found`);
+    }
+
+    scrollToBottom();
+}
+
+addToHistory("Welcome to WebTerm v0.1.2. Type 'help' to see available files/commands.");

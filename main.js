@@ -1,24 +1,28 @@
+// main.js
+// IMPORT THE KERNEL
+import { handleCommand } from './kernel.js';
 
 const powerBtn = document.querySelector('.power-button');
 const powerLed = document.querySelector('.power-led');
 const screen = document.querySelector('.crt-screen');
 
-// Set initial state (ON)
-//let isPowered = true;
-//powerBtn.classList.add('on'); // Button starts pressed in
+const monitorContent = document.querySelector('.monitor-content');
 
-// 1. Initialize as OFF
-let isPowered = false;
+// Input & Cursor elements
+const cmdInput = document.getElementById('cmd');
+const displayPre = document.getElementById('cmd-pre-cursor');
+const displayCursor = document.getElementById('cmd-cursor');
+const displayPost = document.getElementById('cmd-post-cursor');
 
-// 2. Apply the "OFF" visual states immediately
+// Apply the "OFF" visual states immediately
 powerBtn.classList.remove('on'); // Button pops out
 powerLed.classList.add('off'); // LED is dim
 screen.classList.add('off'); // Screen is black
 
 powerBtn.addEventListener('click', () => {
-    isPowered = !isPowered;
+    const isCurrentlyOff = screen.classList.contains('off');
 
-    if (isPowered) {
+    if (isCurrentlyOff) {
         // TURN ON
         powerBtn.classList.add('on'); // Latch button
         powerLed.classList.remove('off'); // Light LED
@@ -40,25 +44,21 @@ powerBtn.addEventListener('click', () => {
     }
 });
 
-const cmdInput = document.getElementById('cmd');
-const displayPre = document.getElementById('cmd-pre-cursor');
-const displayCursor = document.getElementById('cmd-cursor');
-const displayPost = document.getElementById('cmd-post-cursor');
 
 // Sync function: Maps the hidden input state to the visual spans
 const updateCursor = () => {
     const text = cmdInput.value;
     const idx = cmdInput.selectionStart; // Where is the cursor?
 
-    // 1. Text BEFORE cursor
+    // Text BEFORE cursor
     displayPre.textContent = text.slice(0, idx);
 
-    // 2. The Cursor character itself
+    // The Cursor character itself
     // If we are at the end of the line, the cursor is a non-breaking space
     const charAtCursor = text.charAt(idx) || '\u00A0';
     displayCursor.textContent = charAtCursor;
 
-    // 3. Text AFTER cursor
+    // Text AFTER cursor
     displayPost.textContent = text.slice(idx + 1);
 };
 
@@ -67,8 +67,6 @@ cmdInput.addEventListener('input', updateCursor);     // Typing
 cmdInput.addEventListener('keydown', updateCursor);   // Arrow keys
 cmdInput.addEventListener('keyup', updateCursor);     // Arrow keys release
 cmdInput.addEventListener('click', updateCursor);     // Mouse clicks
-
-const monitorContent = document.querySelector('.monitor-content');
 
 // Add listener to focus input whenever the screen is clicked
 monitorContent.addEventListener('click', (e) => {
@@ -79,5 +77,18 @@ monitorContent.addEventListener('click', (e) => {
 
     // Force focus to the hidden input
     cmdInput.focus();
+});
+
+cmdInput.addEventListener('keydown', async function (e) {
+    if (e.key === 'Enter') {
+        const fullCmd = cmdInput.value.trim();
+
+        // 1. Clear Input Visually immediately
+        cmdInput.value = '';
+        updateCursor();
+
+        // 2. Hand off to the Kernel
+        await handleCommand(fullCmd);
+    }
 });
 

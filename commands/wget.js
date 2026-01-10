@@ -1,6 +1,6 @@
 export const execute = async (args) => {
     if (args.length === 0) {
-        return "wget <filename arg> ($ wget resume.pdf): Downloads the file on the terminal web host if available.";
+        return "wget &lt;filename arg&gt; ($ wget resume.pdf): Downloads the file on the terminal web host if available.";
     }
 
     const filename = args[0].toLowerCase();
