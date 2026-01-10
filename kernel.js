@@ -64,6 +64,7 @@ function addToHistory(text, type = '') {
 
 export async function handleCommand(fullCmd) {
     // Echo the command
+    fullCmd = fullCmd.toLowerCase()
     addToHistory(`visitor@web:~$ ${fullCmd}`, 'command-echo');
 
     if (!fullCmd) return;
